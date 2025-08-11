@@ -46,11 +46,6 @@ resource "kubernetes_namespace_v1" "this" {
 # https://search.opentofu.org/provider/hashicorp/kubernetes/latest/docs/resources/role_v1
 
 resource "kubernetes_role_v1" "namespace_admin" {
-
-  # Minimize wildcard use in Roles and ClusterRoles
-  # https://github.com/osinfra-io/opentofu-google-kubernetes-engine/issues/76
-  # checkov:skip=CKV_K8S_49
-
   for_each = var.namespaces
 
   metadata {

@@ -39,23 +39,6 @@ resource "google_cloud_identity_group_membership" "registry_readers" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/container_cluster
 
 resource "google_container_cluster" "this" {
-
-  # Ensure Network Policy is enabled on Kubernetes Engine Clusters (False Positive)
-  # Network policy enforcement is built into GKE Dataplane V2
-  # https://github.com/bridgecrewio/checkov/issues/6357
-  # checkov:skip=CKV_GCP_12
-
-  # Ensure master authorized networks is set to enabled in GKE clusters
-  # checkov:skip=CKV_GCP_20
-
-  # Ensure use of Binary Authorization
-  # checkov:skip=CKV_GCP_66
-
-  # Ensure the GKE Metadata Server is Enabled (False Positive)
-  # Removal of the default node pool is a best practice to ensure that all nodes are managed by OpenTofu.
-  # The Metadata server is enabled in the google_container_node_pool resource.
-  # checkov:skip=CKV_GCP_69
-
   authenticator_groups_config {
     security_group = "gke-security-groups@osinfra.io"
   }
@@ -349,10 +332,6 @@ resource "google_gke_hub_membership" "clusters" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/kms_crypto_key
 
 resource "google_kms_crypto_key" "this" {
-
-  # See comment below for why we can't use the lifecycle block to prevent destroy on this resource.
-  # checkov:skip=CKV_GCP_82
-
   for_each = local.kms_crypto_keys
 
   key_ring        = google_kms_key_ring.cluster_encryption.id
