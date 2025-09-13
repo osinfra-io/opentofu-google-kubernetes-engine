@@ -18,6 +18,7 @@ OpenTofu **example** module for a Google Cloud Platform Kubernetes engine cluste
 
 Google project services must be enabled before using this module. As a best practice, these should be defined in the [opentofu-google-project](https://github.com/osinfra-io/opentofu-google-project) module. The following services are required:
 
+- `anthosconfigmanagement.googleapis.com` (Only needed if the project is a GKE Fleet host project)
 - `container.googleapis.com`
 - `cloudkms.googleapis.com`
 - `cloudresourcemanager.googleapis.com`
