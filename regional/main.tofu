@@ -328,11 +328,14 @@ resource "google_gke_hub_feature_membership" "config_sync_membership" {
 
   configmanagement {
     config_sync {
+      enabled = true
       git {
         sync_repo  = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
         policy_dir = "config-sync-quickstart/multirepo/root"
       }
     }
+
+    management = "MANAGEMENT_AUTOMATIC"
   }
 }
 
