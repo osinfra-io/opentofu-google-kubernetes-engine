@@ -330,8 +330,9 @@ resource "google_gke_hub_feature_membership" "config_sync_membership" {
     config_sync {
       enabled = true
       git {
-        sync_repo  = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
-        policy_dir = "config-sync-quickstart/multirepo/root"
+        secret_type = "none"
+        sync_repo   = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
+        policy_dir  = "config-sync-quickstart/multirepo/root"
       }
     }
 
