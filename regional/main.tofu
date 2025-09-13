@@ -276,6 +276,15 @@ resource "google_container_node_pool" "this" {
 # Google GKEHub Feature Resource
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature
 
+resource "google_gke_hub_feature" "config_sync" {
+  count = var.enable_gke_hub_host ? 1 : 0
+
+  name     = "configmanagement"
+  labels   = var.labels
+  location = "global"
+  project  = var.project
+}
+
 resource "google_gke_hub_feature" "multi_cluster_ingress" {
   count = var.enable_gke_hub_host ? 1 : 0
 
@@ -312,11 +321,9 @@ resource "google_gke_hub_membership" "host" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature_membership
 
 resource "google_gke_hub_feature_membership" "config_sync_membership" {
-  for_each = var.enable_gke_hub_host ? var.gke_hub_memberships : {}
-
-  feature    = "configmanagement"
+  feature    = google_gke_hub_feature.config_sync[0].name
   location   = "global"
-  membership = each.key
+  membership = google_gke_hub_membership.host[0].name
   project    = var.project
 
   configmanagement {
