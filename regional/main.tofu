@@ -335,7 +335,7 @@ resource "google_gke_hub_feature_membership" "config_sync_membership" {
       }
     }
 
-    management = "MANAGEMENT_AUTOMATIC"
+    version = "1.22.0"
   }
 }
 
