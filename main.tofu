@@ -5,6 +5,15 @@ data "google_project" "this" {
   project_id = local.is_fleet_host ? var.project : var.gke_fleet_host_project_id
 }
 
+resource "google_gke_hub_feature" "config_sync" {
+  count = local.is_fleet_host ? 1 : 0
+
+  name     = "configmanagement"
+  labels   = var.labels
+  location = "global"
+  project  = var.project
+}
+
 resource "google_gke_hub_feature" "multi_cluster_service_discovery" {
   count = local.is_fleet_host ? 1 : 0
 

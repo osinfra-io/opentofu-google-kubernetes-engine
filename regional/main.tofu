@@ -308,7 +308,26 @@ resource "google_gke_hub_membership" "host" {
   project       = var.project
 }
 
-# This is the resource for registering clusters to the GKE Hub.
+# Google GKEHub Feature Membership Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature_membership
+
+resource "google_gke_hub_feature_membership" "config_sync_membership" {
+  for_each = var.enable_gke_hub_host ? var.gke_hub_memberships : {}
+
+  feature    = "configmanagement"
+  location   = "global"
+  membership = each.key
+  project    = var.project
+
+  configmanagement {
+    config_sync {
+      git {
+        sync_repo  = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
+        policy_dir = "config-sync-quickstart/multirepo/root"
+      }
+    }
+  }
+}
 
 resource "google_gke_hub_membership" "clusters" {
   for_each = var.enable_gke_hub_host ? var.gke_hub_memberships : {}
