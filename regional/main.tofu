@@ -279,9 +279,26 @@ resource "google_container_node_pool" "this" {
 resource "google_gke_hub_feature" "config_sync" {
   count = local.is_fleet_host ? 1 : 0
 
-  name     = "configmanagement"
+  fleet_default_member_config {
+    configmanagement {
+      version = "1.22.0"
+
+      config_sync {
+        source_format = "unstructured"
+
+        git {
+          policy_dir  = "config-sync-quickstart/multirepo/root"
+          secret_type = "none"
+          sync_branch = "main"
+          sync_repo   = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
+        }
+      }
+    }
+  }
+
   labels   = var.labels
   location = "global"
+  name     = "configmanagement"
   project  = var.project
 }
 
@@ -320,27 +337,27 @@ resource "google_gke_hub_membership" "host" {
 # Google GKEHub Feature Membership Resource
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature_membership
 
-resource "google_gke_hub_feature_membership" "config_sync_membership" {
-  count = local.is_fleet_host ? 1 : 0
+# resource "google_gke_hub_feature_membership" "config_sync_membership" {
+#   count = local.is_fleet_host ? 1 : 0
 
-  feature    = google_gke_hub_feature.config_sync[0].name
-  location   = "global"
-  membership = google_gke_hub_membership.host[0].name
-  project    = var.project
+#   feature    = google_gke_hub_feature.config_sync.0.name
+#   location   = "global"
+#   membership = google_gke_hub_membership.host.0.name
+#   project    = var.project
 
-  configmanagement {
-    config_sync {
-      enabled = true
-      git {
-        secret_type = "none"
-        sync_repo   = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
-        policy_dir  = "config-sync-quickstart/multirepo/root"
-      }
-    }
+#   configmanagement {
+#     config_sync {
+#       enabled = true
+#       git {
+#         secret_type = "none"
+#         sync_repo   = "https://github.com/GoogleCloudPlatform/anthos-config-management-samples"
+#         policy_dir  = "config-sync-quickstart/multirepo/root"
+#       }
+#     }
 
-    version = "1.22.0"
-  }
-}
+#     version = "1.22.0"
+#   }
+# }
 
 resource "google_gke_hub_membership" "clusters" {
   for_each = local.is_fleet_host ? var.gke_hub_memberships : {}
