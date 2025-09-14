@@ -3,6 +3,9 @@
 
 locals {
 
+  # Whether this cluster acts as a fleet host - determined by having memberships configured
+  is_fleet_host = length(var.gke_hub_memberships) > 0
+
   # To provide a simple interface for cluster autoscaling, we use this local to provide
   # clarity to the user on what resources are available for autoscaling. You can only have a
   # single resource type of cpu and memory.

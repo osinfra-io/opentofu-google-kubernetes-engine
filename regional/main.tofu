@@ -277,7 +277,7 @@ resource "google_container_node_pool" "this" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature
 
 resource "google_gke_hub_feature" "config_sync" {
-  count = var.enable_gke_hub_host ? 1 : 0
+  count = local.is_fleet_host ? 1 : 0
 
   name     = "configmanagement"
   labels   = var.labels
@@ -286,7 +286,7 @@ resource "google_gke_hub_feature" "config_sync" {
 }
 
 resource "google_gke_hub_feature" "multi_cluster_ingress" {
-  count = var.enable_gke_hub_host ? 1 : 0
+  count = local.is_fleet_host ? 1 : 0
 
   labels   = var.labels
   location = "global"
@@ -304,7 +304,7 @@ resource "google_gke_hub_feature" "multi_cluster_ingress" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_membership
 
 resource "google_gke_hub_membership" "host" {
-  count = var.enable_gke_hub_host ? 1 : 0
+  count = local.is_fleet_host ? 1 : 0
 
   endpoint {
     gke_cluster {
@@ -321,6 +321,8 @@ resource "google_gke_hub_membership" "host" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature_membership
 
 resource "google_gke_hub_feature_membership" "config_sync_membership" {
+  count = local.is_fleet_host ? 1 : 0
+
   feature    = google_gke_hub_feature.config_sync[0].name
   location   = "global"
   membership = google_gke_hub_membership.host[0].name
@@ -341,7 +343,7 @@ resource "google_gke_hub_feature_membership" "config_sync_membership" {
 }
 
 resource "google_gke_hub_membership" "clusters" {
-  for_each = var.enable_gke_hub_host ? var.gke_hub_memberships : {}
+  for_each = local.is_fleet_host ? var.gke_hub_memberships : {}
 
   authority {
     issuer = "https://container.googleapis.com/v1/${each.value.cluster_id}"

@@ -1,10 +1,6 @@
 # Input Variables
 # https://opentofu.org/docs/language/values/variables
 
-variable "enable_gke_hub_host" {
-  type = bool
-}
-
 variable "gke_hub_memberships" {
   type = map(object({
     cluster_id = string

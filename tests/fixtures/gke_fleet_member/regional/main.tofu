@@ -15,7 +15,6 @@ module "test" {
   cluster_prefix               = "mock"
   cluster_secondary_range_name = "mock-secondary-pods"
   enable_deletion_protection   = false
-  enable_gke_hub_host          = var.enable_gke_hub_host
   gke_hub_memberships          = var.gke_hub_memberships
 
   labels = {

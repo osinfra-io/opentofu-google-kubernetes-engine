@@ -43,8 +43,6 @@ run "gke_fleet_host_regional" {
   }
 
   variables {
-    enable_gke_hub_host = true
-
     gke_hub_memberships = {
       "mock-fleet-member" = {
         cluster_id = "projects/mock/locations/mock-region/clusters/mock-fleet-member"
@@ -99,8 +97,6 @@ run "gke_fleet_member_regional" {
   }
 
   variables {
-    enable_gke_hub_host = false
-
     gke_hub_memberships = {}
 
     node_pools = {
