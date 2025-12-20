@@ -119,8 +119,8 @@ resource "google_container_cluster" "this" {
   initial_node_count = 1
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = var.cluster_secondary_range_name
-    services_secondary_range_name = var.services_secondary_range_name
+    cluster_secondary_range_name  = "k8s-secondary-pods"
+    services_secondary_range_name = "k8s-secondary-services"
   }
 
   location = module.helpers.region

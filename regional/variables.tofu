@@ -33,11 +33,6 @@ variable "cluster_prefix" {
   }
 }
 
-variable "cluster_secondary_range_name" {
-  description = "The name of the existing secondary range in the cluster's subnetwork to use for pod IP addresses"
-  type        = string
-}
-
 variable "daily_maintenance_window" {
   description = "Time window specified for daily maintenance operations"
   type        = string
@@ -78,7 +73,7 @@ variable "master_ipv4_cidr_block" {
 variable "network" {
   description = "The name or self_link of the Google Compute Engine network to which the cluster is connected"
   type        = string
-  default     = "default"
+  default     = "standard-shared"
 }
 
 variable "node_pools" {
@@ -120,11 +115,6 @@ variable "resource_labels" {
   type        = map(string)
   description = "The GCP labels (key/value pairs) to be applied to each node"
   default     = {}
-}
-
-variable "services_secondary_range_name" {
-  description = "The name of the existing secondary range in the cluster's subnetwork to use for service"
-  type        = string
 }
 
 variable "subnet" {

@@ -12,11 +12,10 @@ terraform {
 module "test" {
   source = "../../../../regional"
 
-  cluster_prefix               = "mock"
-  cluster_secondary_range_name = "mock-secondary-pods"
-  enable_deletion_protection   = false
-  enable_gke_hub_host          = var.enable_gke_hub_host
-  gke_hub_memberships          = var.gke_hub_memberships
+  cluster_prefix             = "mock"
+  enable_deletion_protection = false
+  enable_gke_hub_host        = var.enable_gke_hub_host
+  gke_hub_memberships        = var.gke_hub_memberships
 
   labels = {
     "mock-key" = "mock-value"
@@ -31,7 +30,6 @@ module "test" {
     region = "mock-region"
   }
 
-  services_secondary_range_name = "mock-secondary-services"
-  subnet                        = "mock-subnet"
-  vpc_host_project_id           = var.vpc_host_project_id
+  subnet              = "mock-subnet"
+  vpc_host_project_id = var.vpc_host_project_id
 }
