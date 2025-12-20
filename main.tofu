@@ -30,18 +30,6 @@ resource "google_project_iam_member" "gke_hub_service_agent" {
   role    = "roles/gkehub.serviceAgent"
 }
 
-# Create IAM binding granting the fleet host project MCS service account the MCS Service Agent role on the Shared VPC host project.
-
-resource "google_project_iam_member" "multi_cluster_service_agent" {
-  count = local.is_fleet_host ? 1 : 0
-
-  member  = "serviceAccount:service-${data.google_project.this.number}@gcp-sa-mcsd.iam.gserviceaccount.com"
-  project = var.shared_vpc_host_project_id
-  role    = "roles/multiclusterservicediscovery.serviceAgent"
-
-  depends_on = [google_gke_hub_feature.multi_cluster_service_discovery]
-}
-
 # Create IAM binding granting each project's MCS service account the Network User role for its own project.
 # Because this scenario uses workload identity federation for GKE, each project's MCS Importer GKE service
 # account needs the Network User role for its own project.
