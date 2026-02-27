@@ -411,6 +411,6 @@ resource "google_service_account" "default_node" {
 # https://search.opentofu.org/provider/hashicorp/random/latest/docs/resources/id
 
 resource "random_id" "this" {
-  prefix      = "tf"
   byte_length = "2"
+  prefix      = "tf"
 }
