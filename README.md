@@ -1,6 +1,6 @@
 # <img align="left" width="45" height="45" src="https://github.com/osinfra-io/opentofu-google-kubernetes-engine/assets/1610100/38c94ec5-3cef-4716-9744-791d4df598ba"> Google Cloud Platform - Kubernetes Engine OpenTofu Module
 
-[![OpenTofu Tests](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/test.yml?branch=main&style=for-the-badge&logo=opentofu&label=OpenTofu%20Tests)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/test.yml) [![Dependabot](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/dependabot.yml?branch=main&style=for-the-badge&logo=github&label=Dependabot)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/dependabot.yml)
+[![OpenTofu Tests](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/test.yml?style=for-the-badge&logo=opentofu&label=OpenTofu%20Tests)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/test.yml) [![Dependabot](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/dependabot.yml?style=for-the-badge&logo=github&label=Dependabot)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/dependabot.yml)
 
 ## Repository Description
 
