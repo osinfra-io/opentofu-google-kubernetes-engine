@@ -6,7 +6,9 @@ data "google_project" "this" {
 }
 
 resource "google_gke_hub_feature" "multi_cluster_service_discovery" {
-  count = local.is_fleet_host ? 1 : 0
+  lifecycle {
+    enabled = local.is_fleet_host
+  }
 
   name     = "multiclusterservicediscovery"
   labels   = var.labels
@@ -23,7 +25,9 @@ resource "google_gke_hub_feature" "multi_cluster_service_discovery" {
 # Create IAM binding granting the fleet host project's GKE Hub service account the GKE Service Agent role on the service cluster's project.
 
 resource "google_project_iam_member" "gke_hub_service_agent" {
-  count = local.is_fleet_host ? 0 : 1
+  lifecycle {
+    enabled = !local.is_fleet_host
+  }
 
   member  = "serviceAccount:service-${data.google_project.this.number}@gcp-sa-gkehub.iam.gserviceaccount.com"
   project = var.project
@@ -38,7 +42,9 @@ resource "google_project_iam_member" "gke_hub_service_agent" {
 # As a W/A run the regional infrastructure first and then the global infrastructure.
 
 resource "google_project_iam_member" "host_project_network_viewer" {
-  count = local.is_fleet_host ? 0 : 1
+  lifecycle {
+    enabled = !local.is_fleet_host
+  }
 
   member  = "serviceAccount:${var.gke_fleet_host_project_id}.svc.id.goog[gke-mcs/gke-mcs-importer]"
   project = var.project
@@ -46,7 +52,9 @@ resource "google_project_iam_member" "host_project_network_viewer" {
 }
 
 resource "google_project_iam_member" "service_project_network_viewer" {
-  count = local.is_fleet_host ? 1 : 0
+  lifecycle {
+    enabled = local.is_fleet_host
+  }
 
   member  = "serviceAccount:${var.project}.svc.id.goog[gke-mcs/gke-mcs-importer]"
   project = var.project

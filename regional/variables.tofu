@@ -66,8 +66,8 @@ variable "labels" {
 }
 
 variable "master_ipv4_cidr_block" {
-  type        = string
   description = "The IP range in CIDR notation to use for the hosted master network"
+  type        = string
 }
 
 variable "network" {
@@ -106,14 +106,14 @@ variable "project" {
 }
 
 variable "release_channel" {
-  description = " Configuration options for the Release channel feature, which provide more control over automatic upgrades of your GKE clusters"
+  description = "Configuration options for the Release channel feature, which provide more control over automatic upgrades of your GKE clusters"
   type        = string
   default     = "REGULAR"
 }
 
 variable "resource_labels" {
-  type        = map(string)
   description = "The GCP labels (key/value pairs) to be applied to each node"
+  type        = map(string)
   default     = {}
 }
 

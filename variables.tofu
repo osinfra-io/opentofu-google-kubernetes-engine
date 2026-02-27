@@ -2,8 +2,8 @@
 # https://opentofu.org/docs/language/values/variables
 
 variable "gke_fleet_host_project_id" {
-  type        = string
   description = "The project ID of the GKE Hub host project"
+  type        = string
   default     = ""
 }
 
@@ -15,12 +15,11 @@ variable "labels" {
 
 variable "namespaces" {
   description = "A map of namespaces with the Google service account used for the namespace administrator and whether Istio injection is enabled or disabled"
-  default     = {}
-
   type = map(object({
     google_service_account = string
     istio_injection        = optional(string, "disabled")
   }))
+  default = {}
 }
 
 variable "project" {
