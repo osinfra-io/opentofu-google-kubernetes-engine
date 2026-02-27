@@ -39,6 +39,16 @@ resource "google_cloud_identity_group_membership" "registry_readers" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/container_cluster
 
 resource "google_container_cluster" "this" {
+  lifecycle {
+    ignore_changes = [
+
+      # Cluster master version is managed by the release channel. Google upgrades clusters and nodes automatically.
+      # For more control over which auto-upgrades your cluster and its nodes receive, you can enroll it in a release channel.
+
+      min_master_version
+    ]
+  }
+
   authenticator_groups_config {
     security_group = "gke-security-groups@osinfra.io"
   }
@@ -200,16 +210,6 @@ resource "google_container_cluster" "this" {
       enabled = true
     }
   }
-
-  lifecycle {
-    ignore_changes = [
-
-      # Cluster master version is managed by the release channel. Google upgrades clusters and nodes automatically.
-      # For more control over which auto-upgrades your cluster and its nodes receive, you can enroll it in a release channel.
-
-      min_master_version
-    ]
-  }
 }
 
 # Google Container Node Pool Resource
@@ -277,7 +277,9 @@ resource "google_container_node_pool" "this" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature
 
 resource "google_gke_hub_feature" "multi_cluster_ingress" {
-  count = var.enable_gke_hub_host ? 1 : 0
+  lifecycle {
+    enabled = var.enable_gke_hub_host
+  }
 
   labels   = var.labels
   location = "global"
@@ -286,7 +288,7 @@ resource "google_gke_hub_feature" "multi_cluster_ingress" {
 
   spec {
     multiclusteringress {
-      config_membership = google_gke_hub_membership.host.0.name
+      config_membership = google_gke_hub_membership.host.name
     }
   }
 }
@@ -295,7 +297,9 @@ resource "google_gke_hub_feature" "multi_cluster_ingress" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_membership
 
 resource "google_gke_hub_membership" "host" {
-  count = var.enable_gke_hub_host ? 1 : 0
+  lifecycle {
+    enabled = var.enable_gke_hub_host
+  }
 
   endpoint {
     gke_cluster {
@@ -411,6 +415,6 @@ resource "google_service_account" "default_node" {
 # https://search.opentofu.org/provider/hashicorp/random/latest/docs/resources/id
 
 resource "random_id" "this" {
-  prefix      = "tf"
   byte_length = "2"
+  prefix      = "tf"
 }

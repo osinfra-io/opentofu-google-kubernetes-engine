@@ -1,12 +1,10 @@
 # <img align="left" width="45" height="45" src="https://github.com/osinfra-io/opentofu-google-kubernetes-engine/assets/1610100/38c94ec5-3cef-4716-9744-791d4df598ba"> Google Cloud Platform - Kubernetes Engine OpenTofu Module
 
-**[GitHub Actions](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions):**
-
-[![OpenTofu Tests](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/test.yml/badge.svg)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/test.yml) [![Dependabot](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/dependabot.yml/badge.svg)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/dependabot.yml)
+[![OpenTofu Tests](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/test.yml?style=for-the-badge&logo=opentofu&color=FEDA15&label=OpenTofu%20Tests)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/test.yml) [![Dependabot](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/dependabot.yml?style=for-the-badge&logo=github&color=2088FF&label=Dependabot)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/dependabot.yml)
 
 ## Repository Description
 
-OpenTofu **example** module for a Google Cloud Platform Kubernetes engine cluster.
+OpenTofu **example** module that provisions a GKE cluster with Workload Identity, KMS encryption for cluster databases and node boot disks, and CIS GKE Benchmark hardening. It supports GKE Fleet host and member project configurations with multi-cluster service discovery and multi-cluster ingress hub features. Namespace-scoped workload identity service accounts are created per namespace, enabling fine-grained IAM bindings for workloads running in the cluster.
 
 > [!NOTE]
 > We do not recommend consuming this module like you might a [public module](https://search.opentofu.org). It is a baseline, something you can fork, potentially maintain, and modify to fit your organization's needs. Using public modules vs. writing your own has various [drivers and trade-offs](https://docs.osinfra.io/fundamentals/architecture-decision-records/adr-0003) that your organization should evaluate.
