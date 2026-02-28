@@ -301,6 +301,12 @@ resource "google_gke_hub_membership" "host" {
     enabled = var.enable_gke_hub_host
   }
 
+  # The GKE API rejects Hub Membership registration while the cluster is running another operation.
+  # Node pool creation starts concurrently with this resource after the cluster is ready, so we must
+  # wait for all node pools to finish before attempting registration.
+
+  depends_on = [google_container_node_pool.this]
+
   endpoint {
     gke_cluster {
       resource_link = google_container_cluster.this.id
