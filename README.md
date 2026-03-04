@@ -16,6 +16,7 @@ OpenTofu **example** module that provisions a GKE cluster with Workload Identity
 
 Google project services must be enabled before using this module. As a best practice, these should be defined in the [opentofu-google-project](https://github.com/osinfra-io/opentofu-google-project) module. The following services are required:
 
+- `certificatemanager.googleapis.com`
 - `container.googleapis.com`
 - `cloudkms.googleapis.com`
 - `cloudresourcemanager.googleapis.com`
