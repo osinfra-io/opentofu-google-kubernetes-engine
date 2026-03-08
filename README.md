@@ -1,6 +1,6 @@
-# <img align="left" width="45" height="45" src="https://github.com/osinfra-io/opentofu-google-kubernetes-engine/assets/1610100/38c94ec5-3cef-4716-9744-791d4df598ba"> Google Cloud Platform - Kubernetes Engine OpenTofu Module
+# <img align="left" width="45" height="45" src="https://github.com/osinfra-io/pt-arche-google-kubernetes-engine/assets/1610100/38c94ec5-3cef-4716-9744-791d4df598ba"> Google Cloud Platform - Kubernetes Engine OpenTofu Module
 
-[![OpenTofu Tests](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/test.yml?style=for-the-badge&logo=opentofu&color=FEDA15&label=OpenTofu%20Tests)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/test.yml) [![Dependabot](https://img.shields.io/github/actions/workflow/status/osinfra-io/opentofu-google-kubernetes-engine/dependabot.yml?style=for-the-badge&logo=github&color=2088FF&label=Dependabot)](https://github.com/osinfra-io/opentofu-google-kubernetes-engine/actions/workflows/dependabot.yml)
+[![OpenTofu Tests](https://img.shields.io/github/actions/workflow/status/osinfra-io/pt-arche-google-kubernetes-engine/test.yml?style=for-the-badge&logo=opentofu&color=FEDA15&label=OpenTofu%20Tests)](https://github.com/osinfra-io/pt-arche-google-kubernetes-engine/actions/workflows/test.yml) [![Dependabot](https://img.shields.io/github/actions/workflow/status/osinfra-io/pt-arche-google-kubernetes-engine/dependabot.yml?style=for-the-badge&logo=github&color=2088FF&label=Dependabot)](https://github.com/osinfra-io/pt-arche-google-kubernetes-engine/actions/workflows/dependabot.yml)
 
 ## Repository Description
 
@@ -14,7 +14,7 @@ OpenTofu **example** module that provisions a GKE cluster with Workload Identity
 > [!TIP]
 > You can check the [tests/fixtures](tests/fixtures) directory for example configurations. These fixtures set up the system for testing by providing all the necessary initial code, thus creating good examples on which to base your configurations.
 
-Google project services must be enabled before using this module. As a best practice, these should be defined in the [opentofu-google-project](https://github.com/osinfra-io/opentofu-google-project) module. The following services are required:
+Google project services must be enabled before using this module. As a best practice, these should be defined in the [pt-arche-google-project](https://github.com/osinfra-io/pt-arche-google-project) module. The following services are required:
 
 - `certificatemanager.googleapis.com`
 - `container.googleapis.com`
