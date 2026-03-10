@@ -1,19 +1,22 @@
+# Resources
+# https://opentofu.org/docs/language/resources
+
 # Google Project Data Source
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/data-sources/project#google_project
 
 data "google_project" "this" {
-  project_id = local.is_fleet_host ? var.project : var.gke_fleet_host_project_id
+  project_id = local.fleet_host_project_id
 }
 
-resource "google_gke_hub_feature" "multi_cluster_service_discovery" {
-  lifecycle {
-    enabled = local.is_fleet_host
-  }
+# Google Project IAM Member Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
 
-  name     = "multiclusterservicediscovery"
-  labels   = var.labels
-  location = "global"
-  project  = var.project
+resource "google_project_iam_member" "container_deployer" {
+  for_each = local.container_deployer_service_accounts
+
+  member  = "serviceAccount:${each.value}"
+  project = var.project
+  role    = "organizations/163313809793/roles/container.deployer"
 }
 
 # This section provides an example MCS configuration involving two existing GKE clusters each in a different Shared VPC service project.
@@ -51,27 +54,6 @@ resource "google_project_iam_member" "host_project_network_viewer" {
   role    = "roles/compute.networkViewer"
 }
 
-resource "google_project_iam_member" "service_project_network_viewer" {
-  lifecycle {
-    enabled = local.is_fleet_host
-  }
-
-  member  = "serviceAccount:${var.project}.svc.id.goog[gke-mcs/gke-mcs-importer]"
-  project = var.project
-  role    = "roles/compute.networkViewer"
-}
-
-# Google Project IAM Member Resource
-# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
-
-resource "google_project_iam_member" "container_deployer" {
-  for_each = local.container_deployer_service_accounts
-
-  member  = "serviceAccount:${each.value}"
-  project = var.project
-  role    = "organizations/163313809793/roles/container.deployer"
-}
-
 # Google Service Account Resource
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_service_account
 
@@ -83,15 +65,31 @@ resource "google_service_account" "kubernetes_workload_identity" {
   project      = var.project
 }
 
-# Google Service Account IAM Member Resource
-# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_service_account_iam#google_service_account_iam_member
+# Google GKE Hub Feature
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_feature
 
-resource "google_service_account_iam_member" "workload_identity" {
-  for_each = var.namespaces
+resource "google_gke_hub_feature" "multi_cluster_service_discovery" {
+  lifecycle {
+    enabled = local.is_fleet_host
+  }
 
-  member             = "serviceAccount:${var.project}.svc.id.goog[${each.key}/${each.key}-workload-identity-sa]"
-  role               = "roles/iam.workloadIdentityUser"
-  service_account_id = google_service_account.kubernetes_workload_identity[each.key].name
+  labels   = var.labels
+  location = "global"
+  name     = "multiclusterservicediscovery"
+  project  = var.project
+}
+
+# Google Project IAM Member Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
+
+resource "google_project_iam_member" "service_project_network_viewer" {
+  lifecycle {
+    enabled = local.is_fleet_host
+  }
+
+  member  = "serviceAccount:${var.project}.svc.id.goog[gke-mcs/gke-mcs-importer]"
+  project = var.project
+  role    = "roles/compute.networkViewer"
 }
 
 # Random ID Resource
@@ -102,4 +100,15 @@ resource "random_id" "this" {
 
   byte_length = 3
   prefix      = "tf"
+}
+
+# Google Service Account IAM Member Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_service_account_iam#google_service_account_iam_member
+
+resource "google_service_account_iam_member" "workload_identity" {
+  for_each = var.namespaces
+
+  member             = "serviceAccount:${var.project}.svc.id.goog[${each.key}/${each.key}-workload-identity-sa]"
+  role               = "roles/iam.workloadIdentityUser"
+  service_account_id = google_service_account.kubernetes_workload_identity[each.key].name
 }

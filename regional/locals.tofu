@@ -20,6 +20,8 @@ locals {
     }
   ] : []
 
+  gke_hub_memberships = var.enable_gke_hub_host ? var.gke_hub_memberships : {}
+
   kms_crypto_keys = {
     cluster-boot-disk-encryption = {
 
@@ -35,7 +37,8 @@ locals {
     }
   }
 
-  name    = module.helpers.zone == null ? "${var.cluster_prefix}-${module.helpers.region}" : "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.zone}"
-  network = "projects/${var.vpc_host_project_id}/global/networks/${var.network}"
-  subnet  = "projects/${var.vpc_host_project_id}/regions/${module.helpers.region}/subnetworks/${var.subnet}"
+  name           = module.helpers.zone == null ? "${var.cluster_prefix}-${module.helpers.region}" : "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.zone}"
+  network        = "projects/${var.vpc_host_project_id}/global/networks/${var.network}"
+  node_locations = module.helpers.zone != null ? ["${module.helpers.region}-${module.helpers.zone}"] : null
+  subnet         = "projects/${var.vpc_host_project_id}/regions/${module.helpers.region}/subnetworks/${var.subnet}"
 }
