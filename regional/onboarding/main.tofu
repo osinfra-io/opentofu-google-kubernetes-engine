@@ -1,6 +1,3 @@
-# Resources
-# https://opentofu.org/docs/language/resources
-
 # Google Service Account Data Source
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/data-sources/service_account
 

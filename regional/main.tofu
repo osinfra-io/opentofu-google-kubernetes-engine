@@ -1,6 +1,3 @@
-# Resources
-# https://opentofu.org/docs/language/resources
-
 # Google Cloud Identity Group Lookup Data Source
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/data-sources/cloud_identity_group_lookup
 

@@ -1,6 +1,3 @@
-# Resources
-# https://opentofu.org/docs/language/resources
-
 # Google Project Data Source
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/data-sources/project#google_project
 
