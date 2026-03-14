@@ -34,6 +34,18 @@ resource "google_project_iam_member" "gke_hub_service_agent" {
   role    = "roles/gkehub.serviceAgent"
 }
 
+# Create IAM binding granting the fleet host project's MCS service account the MCS Service Agent role on the service cluster's project.
+
+resource "google_project_iam_member" "gke_mcs_service_agent" {
+  lifecycle {
+    enabled = !local.is_fleet_host
+  }
+
+  member  = "serviceAccount:service-${data.google_project.this.number}@gcp-sa-mcsd.iam.gserviceaccount.com"
+  project = var.project
+  role    = "roles/multiclusterservicediscovery.serviceAgent"
+}
+
 # Create IAM binding granting each project's MCS service account the Network User role for its own project.
 # Because this scenario uses workload identity federation for GKE, each project's MCS Importer GKE service
 # account needs the Network User role for its own project.
