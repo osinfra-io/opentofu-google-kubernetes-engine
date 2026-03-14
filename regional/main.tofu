@@ -94,15 +94,15 @@ resource "google_service_account" "default_node" {
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/gke_hub_membership
 
 resource "google_gke_hub_membership" "host" {
-  lifecycle {
-    enabled = var.enable_gke_hub_host
-  }
-
   # The GKE API rejects Hub Membership registration while the cluster is running another operation.
   # Node pool creation starts concurrently with this resource after the cluster is ready, so we must
   # wait for all node pools to finish before attempting registration.
 
   depends_on = [google_container_node_pool.this]
+
+  lifecycle {
+    enabled = var.enable_gke_hub_host
+  }
 
   endpoint {
     gke_cluster {
@@ -231,10 +231,10 @@ resource "google_container_cluster" "this" {
     state    = "ENCRYPTED"
   }
 
-  enable_intranode_visibility = true
-  enable_shielded_nodes       = true
   datapath_provider           = "ADVANCED_DATAPATH"
   deletion_protection         = var.enable_deletion_protection
+  enable_intranode_visibility = true
+  enable_shielded_nodes       = true
 
   # If you're using google_container_node_pool objects with no default node pool, you'll need to set this to a value
   # of at least 1, alongside setting remove_default_node_pool to true.
@@ -297,6 +297,17 @@ resource "google_container_cluster" "this" {
     }
   }
 
+  private_cluster_config {
+    enable_private_endpoint = false
+    enable_private_nodes    = true
+
+    master_global_access_config {
+      enabled = true
+    }
+
+    master_ipv4_cidr_block = var.master_ipv4_cidr_block
+  }
+
   project = var.project
 
   release_channel {
@@ -313,15 +324,6 @@ resource "google_container_cluster" "this" {
 
   workload_identity_config {
     workload_pool = "${var.project}.svc.id.goog"
-  }
-
-  private_cluster_config {
-    enable_private_endpoint = false
-    enable_private_nodes    = true
-    master_ipv4_cidr_block  = var.master_ipv4_cidr_block
-    master_global_access_config {
-      enabled = true
-    }
   }
 }
 

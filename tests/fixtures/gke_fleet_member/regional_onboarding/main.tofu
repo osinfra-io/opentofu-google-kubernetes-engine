@@ -3,11 +3,12 @@
 
 terraform {
   required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-    }
     google = {
       source = "hashicorp/google"
+    }
+
+    kubernetes = {
+      source = "hashicorp/kubernetes"
     }
   }
 }
@@ -26,7 +27,6 @@ data "terraform_remote_state" "main" {
 
 module "test" {
   source = "../../../../regional/onboarding"
-
 
   namespaces                               = var.namespaces
   project                                  = var.project

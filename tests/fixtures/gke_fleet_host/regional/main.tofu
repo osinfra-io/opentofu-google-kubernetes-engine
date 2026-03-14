@@ -21,9 +21,9 @@ module "test" {
     "mock-key" = "mock-value"
   }
 
+  master_ipv4_cidr_block = var.master_ipv4_cidr_block
   network                = "mock-network"
   node_pools             = var.node_pools
-  master_ipv4_cidr_block = var.master_ipv4_cidr_block
   project                = var.project
 
   resource_labels = {
