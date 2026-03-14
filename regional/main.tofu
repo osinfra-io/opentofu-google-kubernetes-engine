@@ -104,10 +104,6 @@ resource "google_gke_hub_membership" "host" {
 
   depends_on = [google_container_node_pool.this]
 
-  authority {
-    issuer = "https://container.googleapis.com/v1/${google_container_cluster.this.id}"
-  }
-
   endpoint {
     gke_cluster {
       resource_link = google_container_cluster.this.id
