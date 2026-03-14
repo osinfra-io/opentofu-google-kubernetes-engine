@@ -37,10 +37,6 @@ resource "google_project_iam_member" "gke_hub_service_agent" {
 # Create IAM binding granting the fleet host project's MCS service account the MCS Service Agent role on the service cluster's project.
 
 resource "google_project_iam_member" "gke_mcs_service_agent" {
-  lifecycle {
-    enabled = !local.is_fleet_host
-  }
-
   member  = "serviceAccount:service-${data.google_project.this.number}@gcp-sa-mcsd.iam.gserviceaccount.com"
   project = var.project
   role    = "roles/multiclusterservicediscovery.serviceAgent"
