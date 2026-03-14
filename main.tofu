@@ -58,7 +58,7 @@ resource "google_project_iam_member" "host_project_network_viewer" {
     enabled = !local.is_fleet_host
   }
 
-  member  = "serviceAccount:${var.gke_fleet_host_project_id}.svc.id.goog[gke-mcs/gke-mcs-importer]"
+  member  = "serviceAccount:${var.project}.svc.id.goog[gke-mcs/gke-mcs-importer]"
   project = var.project
   role    = "roles/compute.networkViewer"
 }
